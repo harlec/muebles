@@ -65,9 +65,12 @@ los paneles con datos.
    valores reales antes de subir).
 4. Verifica que `mod_rewrite` esté activo (lo está por defecto en Apache de
    Plesk) para que `public/.htaccess` enrute todo a `index.php`.
-5. Compila el CSS **antes** de subir (`npm run build:css`) y sube
-   `public/css/app.css` — Plesk no necesita Node instalado, solo sirve el
-   archivo estático resultante.
+5. `public/css/app.css` (generado por Tailwind) está comiteado en el repo
+   para que un `git pull`/subida por FTP alcance sin pasos extra en el
+   servidor. **Cada vez que cambies clases de Tailwind en las vistas**,
+   corre `npm run build:css` localmente y commitea el `app.css`
+   actualizado antes de subir — Plesk no necesita Node instalado, solo
+   sirve ese archivo estático.
 
 ## API
 
