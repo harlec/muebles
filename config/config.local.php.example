@@ -1,0 +1,17 @@
+<?php
+
+// Copia este archivo a config.local.php en el servidor (mismo directorio)
+// y pon ahí los valores reales. config.local.php está en .gitignore:
+// nunca se commitea ni se pisa con un git pull.
+//
+// Solo necesitas poner las claves que quieras sobreescribir; el resto
+// se toma de config.php.
+
+return [
+    'db' => [
+        'host' => 'localhost',
+        'name' => 'nombre_real_de_tu_bd',
+        'user' => 'usuario_que_asigno_plesk',
+        'pass' => 'password_real',
+    ],
+];

@@ -46,7 +46,9 @@ tickClock();
 // ---------- tema ----------
 function applyTheme(theme) {
   document.documentElement.classList.toggle('light', theme === 'light');
-  document.getElementById('theme-toggle').textContent = theme === 'light' ? 'Claro' : 'Oscuro';
+  // Se muestra el ícono del tema al que se cambiará al hacer clic.
+  document.getElementById('icon-sun').classList.toggle('hidden', theme !== 'dark');
+  document.getElementById('icon-moon').classList.toggle('hidden', theme !== 'light');
 }
 
 (function initTheme() {

@@ -12,8 +12,9 @@ class DashboardController extends Controller
         $config = require dirname(__DIR__, 2) . '/config/config.php';
 
         $this->view('dashboard/index', [
-            'locales'  => Local::all(),
-            'currency' => $config['app']['currency'],
+            'locales'     => Local::all(),
+            'currency'    => $config['app']['currency'],
+            'layoutWidth' => $config['app']['layout_width'],
         ]);
     }
 }

@@ -1,3 +1,7 @@
+<?php
+$maxWidths = ['compacto' => '1180px', 'amplio' => '1500px', 'completo' => 'none'];
+$maxWidth = $maxWidths[$layoutWidth ?? 'completo'] ?? 'none';
+?>
 <!doctype html>
 <html lang="es">
 <head>
@@ -8,29 +12,37 @@
 </head>
 <body class="bg-bg text-ink min-h-screen">
 
-<header class="sticky top-0 z-20 flex flex-wrap items-center gap-x-2.5 gap-y-3 px-0.5 py-3.5"
-        style="background-image: linear-gradient(var(--bg) 72%, transparent)">
-  <img src="/assets/logo.jpg" alt="Muebles & Estilo" width="46" height="46"
-       class="rounded-xl object-cover bg-black border" style="border-color: var(--bd2)">
+<div class="mx-auto px-4" style="max-width: <?= htmlspecialchars($maxWidth) ?>">
 
-  <div class="flex-1 min-w-[150px] basis-[170px]">
-    <div class="text-[15px] font-bold uppercase tracking-[.14em]">Muebles &amp; Estilo</div>
-    <div class="text-[11px] uppercase tracking-[.12em] text-mut whitespace-nowrap">Centro de control · 4 locales</div>
-  </div>
+  <header class="sticky top-0 z-20 flex flex-wrap items-center gap-x-2.5 gap-y-3 px-0.5 py-3.5"
+          style="background-image: linear-gradient(var(--bg) 72%, transparent)">
+    <img src="/assets/logo.jpg" alt="Muebles & Estilo" width="46" height="46"
+         class="rounded-xl object-cover bg-black border" style="border-color: var(--bd2)">
 
-  <div class="ml-auto flex items-center gap-2">
-    <div class="flex items-center gap-2 rounded-full px-[11px] py-[7px] border"
-         style="background: var(--acc-soft); border-color: var(--acc-bd)">
-      <span class="w-[7px] h-[7px] rounded-full animate-pulseDot" style="background: #ED0B4C"></span>
-      <span id="clock" class="text-[11px] font-bold tabular-nums">--:--:--</span>
+    <div class="flex-1 min-w-[150px] basis-[170px]">
+      <div class="text-[15px] font-bold uppercase tracking-[.14em]">Muebles &amp; Estilo</div>
+      <div class="text-[11px] uppercase tracking-[.12em] text-mut whitespace-nowrap">Centro de control · 4 locales</div>
     </div>
-    <button id="theme-toggle" type="button"
-            class="rounded-full px-[13px] py-2 text-[11px] font-bold uppercase tracking-[.08em] bg-chip border"
-            style="border-color: var(--bd2)">Oscuro</button>
-  </div>
-</header>
 
-<div class="mx-auto px-4" style="max-width: 1180px">
+    <div class="ml-auto flex items-center gap-2">
+      <div class="flex items-center gap-2 rounded-full px-[11px] py-[7px] border"
+           style="background: var(--acc-soft); border-color: var(--acc-bd)">
+        <span class="w-[7px] h-[7px] rounded-full animate-pulseDot" style="background: #ED0B4C"></span>
+        <span id="clock" class="text-[11px] font-bold tabular-nums">--:--:--</span>
+      </div>
+      <button id="theme-toggle" type="button" aria-label="Cambiar tema"
+              class="rounded-full w-9 h-9 flex items-center justify-center bg-chip border"
+              style="border-color: var(--bd2)">
+        <svg id="icon-sun" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4.5"></circle>
+          <path d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8l1.8-1.8M18 6l1.8-1.8"></path>
+        </svg>
+        <svg id="icon-moon" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="var(--ink)">
+          <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
 
   <div id="local-filter" class="flex gap-[7px] overflow-x-auto pb-2">
     <button class="chip-local shrink-0 rounded-xl px-[13px] py-[9px] text-left border" data-local="global">
