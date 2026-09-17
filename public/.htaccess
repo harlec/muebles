@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Sirve archivos y carpetas reales tal cual (css, js, assets)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Todo lo demás va al front controller
+RewriteRule ^ index.php [L]

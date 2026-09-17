@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Tokens de diseño: design_handoff_dashboard_multilocal/README.md
+  Oscuro = tema por defecto (:root). Claro = html.light.
+  No declarar -webkit-font-smoothing ni text-rendering (ver README, sección Tipografía).
+*/
+:root {
+  --bg: #08080A;
+  --card: #0F0F11;
+  --chip: #131316;
+  --inset: #17171B;
+  --track: #232328;
+  --card-grad: linear-gradient(165deg, #131317, #0C0C0E);
+  --hero-bg: linear-gradient(158deg, rgba(237,11,76,.24), rgba(237,11,76,.05) 55%, #0E0E11);
+  --bd: rgba(255,255,255,.11);
+  --bd2: rgba(255,255,255,.14);
+  --bd3: rgba(255,255,255,.16);
+  --bd4: rgba(255,255,255,.09);
+  --ink: #FBFBFC;
+  --body: #D2D2DA;
+  --body2: #E8E8EE;
+  --mut: #A8A8B2;
+  --faint: #92929C;
+  --ghost-txt: #5E5E68;
+  --rule: #35353C;
+  --bar2: rgba(251,251,252,.58);
+  --bar3: rgba(251,251,252,.42);
+  --bar4: rgba(251,251,252,.44);
+  --bar5: rgba(251,251,252,.36);
+  --ghost: rgba(251,251,252,.10);
+  --ghost-ring: rgba(251,251,252,.18);
+  --area: rgba(251,251,252,.10);
+  --line: #FBFBFC;
+  --meta-line: #5E5E68;
+  --acc-txt: #FF8AAB;
+  --acc-soft: rgba(237,11,76,.16);
+  --acc-bd: rgba(237,11,76,.45);
+  --rot-bg: rgba(237,11,76,.22);
+  --rot-fg: #FF9EB9;
+  --ok: #6FE09A;
+}
+
+html.light {
+  --bg: #F4F2F0;
+  --card: #FFFFFF;
+  --chip: #FFFFFF;
+  --inset: #F2F0ED;
+  --track: #E4E0DC;
+  --card-grad: linear-gradient(165deg, #FFFFFF, #FAF8F5);
+  --hero-bg: linear-gradient(158deg, rgba(237,11,76,.14), rgba(237,11,76,.03) 55%, #FFFFFF);
+  --bd: rgba(18,16,20,.13);
+  --bd2: rgba(18,16,20,.16);
+  --bd3: rgba(18,16,20,.18);
+  --bd4: rgba(18,16,20,.10);
+  --ink: #131318;
+  --body: #3C3C46;
+  --body2: #25252D;
+  --mut: #5C5C66;
+  --faint: #6C6C76;
+  --ghost-txt: #A4A4AE;
+  --rule: #CECAC6;
+  --bar2: rgba(19,19,24,.46);
+  --bar3: rgba(19,19,24,.32);
+  --bar4: rgba(19,19,24,.34);
+  --bar5: rgba(19,19,24,.26);
+  --ghost: rgba(19,19,24,.08);
+  --ghost-ring: rgba(19,19,24,.14);
+  --area: rgba(19,19,24,.07);
+  --line: #131318;
+  --meta-line: #A4A4AE;
+  --acc-txt: #C10A3E;
+  --acc-soft: rgba(237,11,76,.09);
+  --acc-bd: rgba(237,11,76,.38);
+  --rot-bg: rgba(237,11,76,.12);
+  --rot-fg: #AE0736;
+  --ok: #12764A;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.bg-card-grad { background-image: var(--card-grad); }
+.bg-hero { background-image: var(--hero-bg); }
+
+/* Patrones reusados: README §"Tarjeta KPI" y chrome global */
+@layer components {
+  .kpi {
+    @apply p-[14px] pb-3 rounded-2xl overflow-hidden border;
+    background-image: var(--card-grad);
+    border-color: var(--bd);
+  }
+  .kpi-hero {
+    background-image: var(--hero-bg);
+    border-color: var(--acc-bd);
+  }
+  .kpi-label {
+    @apply flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[.13em] mb-2;
+    color: var(--mut);
+  }
+  .kpi-hero .kpi-label { color: var(--acc-txt); }
+  .dot { @apply inline-block w-1.5 h-1.5 rounded-full shrink-0; }
+  .kpi-value { @apply text-[36px] font-medium tracking-[-.02em] tabular-nums; }
+  .kpi .unit { @apply text-xs ml-1; color: var(--mut); }
+  .kpi-delta { @apply text-[11px] mt-1; color: var(--mut); }
+
+  .panel {
+    @apply flex flex-col p-4 rounded-[18px] border;
+    background-image: var(--card-grad);
+    border-color: var(--bd);
+  }
+  .panel-h {
+    @apply flex items-center gap-1.5 text-xs font-bold uppercase tracking-[.11em] mb-3;
+  }
+  .panel-h .meta-label {
+    @apply ml-auto text-[10.5px] uppercase normal-case tracking-normal font-normal;
+    color: var(--mut);
+  }
+  .insight {
+    @apply mt-3 px-3 py-[11px] rounded-xl text-[11.5px] leading-[1.45];
+    background: var(--inset);
+    color: var(--body);
+  }
+
+  .chip-local {
+    background: var(--chip);
+    color: var(--ink);
+    border-color: var(--bd2);
+  }
+  .chip-local.active {
+    background: #ED0B4C;
+    color: #fff;
+    border-color: #ED0B4C;
+  }
+
+  .tab-btn {
+    background: transparent;
+    color: var(--mut);
+  }
+  .tab-btn.active {
+    background: #ED0B4C;
+    color: #fff;
+  }
+
+  .feed-row {
+    @apply flex items-center justify-between gap-2 py-2 text-[12px] border-b;
+    border-color: var(--bd4);
+  }
+}

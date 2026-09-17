@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin:0; padding:0; background:{{ t.bg }}; }
+  a { color:{{ t.accTxt }}; text-decoration:none; }
+  a:hover { color:#FF7FA2; }
+  @keyframes pulseDot { 0%,100%{ opacity:1; transform:scale(1) } 50%{ opacity:.25; transform:scale(.75) } }
+  @keyframes fadeUp { from{ opacity:0; transform:translateY(6px) } to{ opacity:1; transform:none } }
+  ::-webkit-scrollbar { width:6px; height:6px }
+  ::-webkit-scrollbar-thumb { background:#2A2A2E; border-radius:99px }
+</style>
+</helmet>
+
+<div style="min-height:100vh; background:{{ t.bg }}; color:{{ t.ink }}; font-family:Roboto, Helvetica, sans-serif; padding:0 0 40px">
+
+  <div style="max-width:{{ maxW }}; margin:0 auto; padding:0 16px">
+
+    <header style="display:flex; align-items:center; gap:12px 10px; flex-wrap:wrap; padding:16px 2px 14px; position:sticky; top:0; background:linear-gradient({{ t.bg }} 72%, {{ t.bgFade }}); z-index:20">
+      <img src="logo.jpg" alt="Muebles &amp; Estilo" style="width:46px; height:46px; border-radius:12px; object-fit:cover; background:#000; border:1px solid {{ t.bd2 }}" />
+      <div style="display:flex; flex-direction:column; gap:2px; flex:1 1 170px; min-width:150px">
+        <div style="font-size:15px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; line-height:1">Muebles &amp; Estilo</div>
+        <div style="font-family:Roboto,sans-serif; font-size:11px; letter-spacing:.12em; color:{{ t.mut }}; text-transform:uppercase; white-space:nowrap">Centro de control · 4 locales</div>
+      </div>
+      <div style="margin-left:auto; display:flex; align-items:center; gap:8px; flex:0 0 auto">
+      <div style="display:flex; align-items:center; gap:8px; padding:7px 11px; border:1px solid {{ t.accBd }}; border-radius:99px; background:{{ t.accSoft }}">
+        <span style="width:7px; height:7px; border-radius:99px; background:#ED0B4C; animation:pulseDot 1.4s infinite"></span>
+        <span style="font-family:Roboto,sans-serif; font-size:11px; font-weight:700; letter-spacing:.06em">{{ clock }}</span>
+      </div>
+      <button onClick="{{ themeBtn.onClick }}" style="padding:8px 13px; border-radius:99px; cursor:pointer; background:{{ themeBtn.bg }}; color:{{ themeBtn.fg }}; border:1px solid {{ themeBtn.border }}; font-family:Roboto,sans-serif; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase">{{ themeBtn.label }}</button>
+      </div>
+    </header>
+
+    <div style="display:flex; gap:7px; overflow-x:auto; padding:2px 2px 12px; scrollbar-width:none">
+      <sc-for list="{{ localChips }}" as="c" hint-placeholder-count="5">
+        <button onClick="{{ c.onClick }}" style="flex:0 0 auto; display:flex; flex-direction:column; gap:3px; align-items:flex-start; padding:9px 13px; border-radius:12px; border:1px solid {{ c.border }}; background:{{ c.bg }}; color:{{ c.fg }}; cursor:pointer; font-family:Roboto,sans-serif; transition:all .18s">
+          <span style="font-size:13px; font-weight:700; letter-spacing:.02em">{{ c.name }}</span>
+          <span style="font-family:Roboto,sans-serif; font-size:11px; opacity:.72">{{ c.sub }}</span>
+        </button>
+      </sc-for>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:6px; padding:5px; background:{{ t.chip }}; border:1px solid {{ t.bd }}; border-radius:14px; position:sticky; top:74px; z-index:19">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3">
+        <button onClick="{{ t.onClick }}" style="padding:10px 6px; border:0; border-radius:10px; cursor:pointer; background:{{ t.bg }}; color:{{ t.fg }}; font-family:Roboto,sans-serif; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; transition:all .18s">{{ t.label }}</button>
+      </sc-for>
+    </div>
+
+    <!-- ================= HOY ================= -->
+    <sc-if value="{{ isHoy }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex; flex-direction:column; gap:12px; margin-top:14px">
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px">
+          <sc-for list="{{ kpisHoy }}" as="k" hint-placeholder-count="4">
+            <div style="padding:14px 14px 12px; border-radius:16px; background:{{ k.bg }}; border:1px solid {{ k.border }}; overflow:hidden">
+              <div style="display:flex; align-items:center; gap:7px">
+                <span style="width:6px; height:6px; border-radius:99px; background:{{ k.dot }}; flex:0 0 auto"></span>
+                <span style="font-size:11px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:{{ k.labelColor }}">{{ k.label }}</span>
+              </div>
+              <div style="display:flex; align-items:baseline; gap:6px; margin-top:10px">
+                <span style="font-size:36px; font-weight:500; letter-spacing:-.02em; line-height:1; font-variant-numeric:tabular-nums; color:{{ k.valueColor }}">{{ k.value }}</span>
+                <span style="font-size:12px; color:{{ t.mut }}">{{ k.unit }}</span>
+              </div>
+              <div style="display:flex; align-items:baseline; gap:8px; margin-top:9px">
+                <span style="font-size:11px; color:{{ t.mut }}">{{ k.delta }}</span>
+                <span style="margin-left:auto; font-size:11px; font-weight:700; color:{{ k.deltaColor }}">{{ k.trend }}</span>
+              </div>
+              <svg viewBox="0 0 100 26" preserveAspectRatio="none" style="width:100%; height:24px; margin-top:11px; display:block">
+                <path d="{{ k.sparkArea }}" fill="{{ k.sparkFill }}"></path>
+                <path d="{{ k.sparkLine }}" fill="none" stroke="{{ k.sparkColor }}" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
+              </svg>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:12px">
+
+          <section style="display:flex; flex-direction:column; padding:16px; border-radius:18px; background:{{ t.cardGrad }}; border:1px solid {{ t.bd }}">
+            <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px">
+              <h2 style="margin:0; display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.11em; text-transform:uppercase"><span style="width:6px; height:6px; border-radius:99px; background:{{ t.accTxt }}; flex:0 0 auto"></span>Quién vende más hoy</h2>
+              <span style="font-family:Roboto,sans-serif; font-size:11px; color:{{ t.mut }}; letter-spacing:.1em; text-transform:uppercase">en vivo</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:16px; margin-top:16px; flex-wrap:wrap">
+              <div style="width:104px; height:104px; border-radius:99px; background:{{ localDonut }}; display:flex; align-items:center; justify-content:center; flex:0 0 auto">
+                <div style="width:70px; height:70px; border-radius:99px; background:{{ t.card }}; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px">
+                  <span style="font-size:10px; letter-spacing:.1em; color:{{ t.mut }}">TOTAL</span>
+                  <span style="font-size:14px; font-weight:500; font-variant-numeric:tabular-nums">{{ localTotal }}</span>
+                </div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:7px; flex:1; min-width:140px">
+                <sc-for list="{{ ranking }}" as="r" hint-placeholder-count="4">
+                  <div style="display:flex; align-items:center; gap:8px; font-size:11.5px">
+                    <span style="width:8px; height:8px; border-radius:3px; background:{{ r.color }}; flex:0 0 auto"></span>
+                    <span style="color:{{ t.body }}">{{ r.name }}</span>
+                    <span style="margin-left:auto; font-weight:700; font-variant-numeric:tabular-nums">{{ r.share }}%</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:12px; margin-top:18px; flex:1; justify-content:space-between">
+              <sc-for list="{{ ranking }}" as="r" hint-placeholder-count="4">
+                <div onClick="{{ r.onClick }}" style="cursor:pointer">
+                  <div style="display:flex; align-items:center; gap:8px; font-size:12.5px">
+                    <span style="font-family:Roboto,sans-serif; font-size:11px; color:{{ t.mut }}; width:16px">{{ r.pos }}</span>
+                    <span style="font-weight:700; color:{{ r.nameColor }}">{{ r.name }}</span>
+                    <span style="font-family:Roboto,sans-serif; font-size:11px; color:{{ t.mut }}">{{ r.tickets }} tickets</span>
+                    <span style="margin-left:auto; font-family:Roboto,sans-serif; font-weight:700; font-variant-numeric:tabular-nums">{{ r.amount }}</span>
+                  </div>
+                  <div style="height:8px; border-radius:99px; background:{{ t.track }}; margin-top:7px; overflow:hidden; display:flex">
+                    <div style="width:{{ r.pct }}%; background:{{ r.barColor }}; border-radius:99px; transition:width .6s cubic-bezier(.2,.8,.2,1)"></div>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; margin-top:5px; font-family:Roboto,sans-serif; font-size:11px; color:{{ t.faint }}">
+                    <span>meta día {{ r.meta }}</span>
+                    <span style="color:{{ r.metaColor }}">{{ r.metaPct }}% de meta</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+
+          <section style="display:flex; flex-direction:column; padding:16px; border-radius:18px; background:{{ t.cardGrad }}; border:1px solid {{ t.bd }}">
+            <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px">
+              <h2 style="margin:0; display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.11em; text-transform:uppercase"><span style="width:6px; height:6px; border-radius:99px; background:{{ t.accTxt }}; flex:0 0 auto"></span>Horarios de más venta</h2>
+              <span style="font-family:Roboto,sans-serif; font-size:11px; color:{{ t.accTxt }}; letter-spacing:.06em">pico {{ peakHour }}</span>
+            </div>
+            <div style="display:flex; align-items:flex-end; gap:4px; flex:1; min-height:132px; margin-top:16px">
+              <sc-for list="{{ hourBars }}" as="h" hint-placeholder-count="11">
+                <div onClick="{{ h.onClick }}" style="flex:1; display:flex; flex-direction:column; justify-content:flex-end; height:100%; gap:5px; cursor:pointer">
+                  <div style="height:{{ h.h }}%; min-height:3px; border-radius:5px 5px 2px 2px; background:{{ h.color }}; border:1px solid {{ h.ring }}; transition:height .5s"></div>
+                  <span style="font-family:Roboto,sans-serif; font-size:11px; text-align:center; color:{{ h.labelColor }}">{{ h.label }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top:12px; padding:11px 12px; border-radius:12px; background:{{ t.inset }}; font-size:11.5px; line-height:1.45; color:{{ t.body }}">{{ hourInsight }}</div>
+          </section>
+
+          <section style="display:flex; flex-direction:column; padding:16px; border-radius:18px; background:{{ t.cardGrad }}; border:1px solid {{ t.bd }}">
+            <h2 style="margin:0; display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.11em; text-transform:uppercase"><span style="width:6px; height:6px; border-radius:99px; background:{{ t.accTxt }}; flex:0 0 auto"></span>Métodos de pago · hoy</h2>
+            <div style="display:flex; align-items:center; gap:18px; margin-top:16px; flex-wrap:wrap">
+              <div style="width:118px; height:118px; border-radius:99px; background:{{ donut }}; display:flex; align-items:center; justify-content:center; flex:0 0 auto">
+                <div style="width:78px; height:78px; border-radius:99px; background:{{ t.card }}; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px">
+                  <span style="font-size:10.5px; color:{{ t.mut }}; letter-spacing:.1em">TICKETS</span>
+                  <span style="font-size:20px; font-weight:500">{{ ticketsToday }}</span>
+                </div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:6px; flex:1; min-width:150px">
+                <span style="font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:{{ t.mut }}">Mezcla del día</span>
+                <span style="font-size:12.5px; line-height:1.4; color:{{ t.body }}">{{ payTodayInsight }}</span>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:12px; margin-top:18px; flex:1; justify-content:space-between">
+              <sc-for list="{{ payments }}" as="p" hint-placeholder-count="4">
+                <div>
+                  <div style="display:flex; align-items:center; gap:9px; font-size:12.5px">
+                    <span style="width:9px; height:9px; border-radius:3px; background:{{ p.color }}; flex:0 0 auto"></span>
+                    <span style="font-weight:500">{{ p.name }}</span>
+                    <span style="margin-left:auto; font-size:11.5px; font-weight:700; font-variant-numeric:tabular-nums">{{ p.amount }}</span>
+                    <span style="font-size:11px; color:{{ t.mut }}; width:34px; text-align:right">{{ p.pct }}%</span>
+                  </div>
+                  <div style="height:6px; border-radius:99px; background:{{ t.track }}; margin-top:6px; overflow:hidden">
+                    <div style="width:{{ p.bar }}%; height:100%; background:{{ p.color }}; border-radius:99px; transition:width .6s cubic-bezier(.2,.8,.2,1)"></div>
+                  </div>
+                  <div style="display:flex; gap:10px; margin-top:5px; font-size:11px; color:{{ t.faint }}">
+                    <span>{{ p.tickets }} tickets</span>
+                    <span>·</span>
+                    <span>ticket prom {{ p.avg }}</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+
+          <section style="display:flex; flex-direction:column; padding:16px; border-radius:18px; background:{{ t.cardGrad }}; border:1px solid {{ t.bd }}">
+            <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px">
+              <h2 style="margin:0; display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.11em; text-transform:uppercase"><span style="width:6px; height:6px; border-radius:99px; background:{{ t.accTxt }}; flex:0 0 auto"></span>Ventas entrando</h2>
+              <span style="font-family:Roboto,sans-serif; font-size:11px; color:{{ t.mut }}; letter-spacing:.1em; text-transform:uppercase">{{ feedStatus }}</span>
+            </div>
+            <div style="display:flex; flex-direction:column; margin-top:10px; flex:1; min-height:0; justify-content:space-between">
+              <sc-for list="{{ feed }}" as="f" hint-placeholder-count="5">
+                <div style="display:flex; align-items:center; gap:10px; padding:11px 2px; border-bottom:1px solid {{ t.bd4 }}; animation:fadeUp .35s ease both">
+                  <span style="font-family:Roboto,sans-serif; font-size:11px; font-weight:700; color:{{ t.accTxt }}; width:40px">{{ f.time }}</span>
+                  <div style="display:flex; flex-direction:column; gap:2px; min-width:0; flex:1">
+                    <span style="font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ f.product }}</span>
+                    <span style="font-family:Roboto,sans-serif; font-size:11px; color:{{ t.mut }}">{{ f.local }} · {{ f.method }}</span>
+                  </div>
+                  <span style="font-family:Roboto,sans-serif; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums">{{ f.amount }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+
+          <section style="display:flex; flex-direction:column; padding:16px; border-radius:18px; background:{{ t.cardGrad }}; border:1px solid {{ t.bd }}">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap">
+              <h2 style="margin:0; display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.11em; text-transform:uppercase"><span style="width:6px; height:6px; border-radius:99px; background:{{ t.accTxt }}; flex:0 0 auto"></span>Categorías más vendidas</h2>
+              <div style="display:flex; gap:5px">
+                <sc-for list="{{ catPeriods }}" as="p" hint-placeholder-count="3">
+                  <button onClick="{{ p.onClick }}" style="padding:5px 11px; border-radius:99px; cursor:pointer; background:{{ p.bg }}; color:{{ p.fg }}; border:1px solid {{ p.border }}; font-family:Roboto,sans-serif; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; transition:all .18s">{{ p.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:13px; margin-top:16px; flex:1; justify-content:space-between">
+              <sc-for list="{{ catRows }}" as="c" hint-placeholder-count="5">
+                <div>
+                  <div style="display:flex; align-items:baseline; gap:8px; font-size:12.5px">
+                    <span style="font-weight:700; color:{{ c.labelColor }}">{{ c.name }}</span>
+                    <span style="font-family:Roboto,sans-serif; font-size:11px; color:{{ t.mut }}">{{ c.units }} · rot {{ c.rot }}×</span>
+                    <span style="margin-left:auto; font-family:Roboto,sans-serif; font-size:11.5px; font-weight:700; font-variant-numeric:tabular-nums">{{ c.amount }}</span>
+                    <span style="font-family:Roboto,sans-serif; font-size:11px; color:{{ t.mut }}; width:32px; text-align:right">{{ c.share }}%</span>
+                  </div>
+                  <div style="height:8px; border-radius:99px; background:{{ t.track }}; margin-top:7px; overflow:hidden">
+                    <div style="width:{{ c.pct }}%; height:100%; background:{{ c.barColor }}; border-radius:99px; transition:width .6s cubic-bezier(.2,.8,.2,1)"></div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top:14px; padding:11px 12px; border-radius:12px; background:{{ t.inset }}; font-size:11.5px; line-height:1.45; color:{{ t.body }}">{{ catInsight }}</div>
+          </section>
+
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ================= MES ================= -->
+    <sc-if value="{{ isMes }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex; flex-direction:column; gap:12px; margin-top:14px">
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px">
+          <sc-for list="{{ kpisMes }}" as="k" hint-placeholder-count="4">
+            <div style="padding:14px 14px 12px; border-radius:16px; background:{{ k.bg }}; border:1px solid {{ k.border }}; overflow:hidden">
+              <div style="display:flex; align-items:center; gap:7px">
+                <span style="width:6px; height:6px; border-radius:99px; background:{{ k.dot }}; flex:0 0 auto"></span>
+                <span style="font-size:11px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:{{ k.labelColor }}">{{ k.label }}</span>
+              </div>
+              <div style="display:flex; align-items:baseline; gap:6px; margin-top:10px">
+                <span style="font-size:36px; font-weight:500; letter-spacing:-.02em; line-height:1; font-variant-numeric:tabular-nums; color:{{ k.valueColor }}">{{ k.value }}</span>
+                <span style="font-size:12px; color:{{ t.mut }}">{{ k.unit }}</span>
+              </div>
+              <div style="display:flex; align-items:baseline; gap:8px; margin-top:9px">
+                <span style="font-size:11px; color:{{ t.mut }}">{{ k.delta }}</span>
+                <span style="margin-left:auto; font-size:11px; font-weight:700; color:{{ k.deltaColor }}">{{ k.trend }}</span>
+              </div>
+              <svg viewBox="0 0 100 26" preserveAspectRatio="none" style="width:100%; height:24px; margin-top:11px; display:block">
+                <path d="{{ k.sparkArea }}" fill="{{ k.sparkFill }}"></path>
+                <path d="{{ k.sparkLine }}" fill="none" stroke="{{ k.sparkColor }}" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
+              </svg>
+            </div>
+          </sc-for>
+        </div>
+
+        <section style="padding:16px; border-radius:18px; background:{{ t.gridBg }}; border:1px solid {{ t.bd }}">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap">
+            <h2 style="margin:0; display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.11em; text-transform:uppercase"><span style="width:6px; height:6px; border-radius:99px; background:{{ t.accTxt }}; flex:0 0 auto"></span>Septiembre · real vs proyección</h2>
+            <div style="display:flex; gap:12px; font-family:Roboto,sans-serif; font-size:11px; color:{{ t.mut }}">
+              <span style="color:{{ t.ink }}">— real</span>
+              <span style="color:{{ t.accTxt }}">--- proyección</span>
+              <span>· · meta</span>
+            </div>
+          </div>
+          <svg viewBox="0 0 640 210" style="width:100%; height:auto; margin-top:14px; overflow:visible">
+            <path d="{{ chart.area }}" fill="{{ t.area }}"></path>
+            <line x1="14" y1="{{ chart.metaY }}" x2="626" y2="{{ chart.metaY }}" stroke="{{ t.metaLine }}" stroke-width="1" stroke-dasharray="2 5"></line>
+            <path d="{{ chart.proj }}" fill="none" stroke="#ED0B4C" stroke-width="2.5" stroke-dasharray="7 6" stroke-linecap="round"></path>
+            <path d="{{ chart.real }}" fill="none" stroke="{{ t.line }}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <circle cx="{{ chart.cx }}" cy="{{ chart.cy }}" r="4.5" fill="#ED0B4C" stroke="{{ t.card }}" stroke-width="2"></circle>
+            <sc-for list="{{ chart.ticks }}" as="tk" hint-placeholder-count="5">
+              <text x="{{ tk.x }}" y="206" fill="{{ t.mut }}" font-family="Roboto, sans-serif" font-size="10" text-anchor="middle">{{ tk.label }}</text>
+            </sc-for>
+          </svg>
+          <div style="margin-top:8px; padding:11px 12px; border-radius:12px; background:{{ t.inset }}; font-size:11.5px; line-height:1.45; color:{{ t.body }}">{{ projInsight }}</div>
+        </section>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:12px">
+          <section style="display:flex; flex-direction:column; padding:16px; border-radius:18px; background:{{ t.cardGrad }}; border:1px solid {{ t.bd }}">
+            <h2 style="margin:0 0 14px; display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.11em; text-transform:uppercase"><span style="width:6px; height:6px; border-radius:99px; background:{{ t.accTxt }}; flex:0 0 auto"></span>Proyección de cierre por local</h2>
+            <div style="display:flex; flex-direction:column; gap:13px">
+              <sc-for list="{{ projRows }}" as="r" hint-placeholder-count="4">
+                <div>
+                  <div style="display:flex; align-items:baseline; gap:8px; font-size:12.5px">
+                    <span style="font-weight:700">{{ r.name }}</span>
+                    <span style="margin-left:auto; font-family:Roboto,sans-serif; font-size:11px; color:{{ t.mut }}">{{ r.actual }}</span>
+                    <span style="font-family:Roboto,sans-serif; font-weight:700">→ {{ r.proj }}</span>
+                  </div>
+                  <div style="height:8px; border-radius:99px; background:{{ t.track }}; margin-top:7px; display:flex; overflow:hidden">
+                    <div style="width:{{ r.pctReal }}%; background:{{ t.ink }}"></div>
+                    <div style="width:{{ r.pctProj }}%; background:rgba(237,11,76,.55)"></div>
+                  </div>
+                  <div style="margin-top:5px; font-family:Roboto,sans-serif; font-size:11px; color:{{ r.statusColor }}">{{ r.status }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+
+          <section style="display:flex; flex-direction:column; padding:16px; border-radius:18px; background:{{ t.cardGrad }}; border:1px solid {{ t.bd }}">
+            <h2 style="margin:0 0 14px; display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.11em; text-transform:uppercase"><span style="width:6px; height:6px; border-radius:99px; background:{{ t.accTxt }}; flex:0 0 auto"></span>Métodos de pago · mes</h2>
+            <div style="display:flex; flex-direction:column; gap:14px">
+              <sc-for list="{{ paymentsMonth }}" as="p" hint-placeholder-count="4">
+                <div>
+                  <div style="display:flex; align-items:baseline; gap:8px; font-size:12.5px">
+                    <span>{{ p.name }}</span>
+                    <span style="margin-left:auto; font-family:Roboto,sans-serif; font-size:11px; font-weight:700">{{ p.amount }}</span>
+                    <span style="font-family:Roboto,sans-serif; font-size:11px; color:{{ t.mut }}; width:34px; text-align:right">{{ p.pct }}%</span>
+                  </div>
+                  <div style="height:8px; border-radius:99px; background:{{ t.track }}; margin-top:7px; overflow:hidden">
+                    <div style="width:{{ p.pct }}%; height:100%; background:{{ p.color }}; border-radius:99px"></div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top:14px; padding:11px 12px; border-radius:12px; background:{{ t.inset }}; font-size:11.5px; line-height:1.45; color:{{ t.body }}">{{ payInsight }}</div>
+          </section>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============== PRODUCTOS / ROTACIÓN ============== -->
+    <sc-if value="{{ isProd }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex; flex-direction:column; gap:12px; margin-top:14px">
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px">
+          <sc-for list="{{ kpisProd }}" as="k" hint-placeholder-count="3">
+            <div style="padding:14px 14px 12px; border-radius:16px; background:{{ k.bg }}; border:1px solid {{ k.border }}; overflow:hidden">
+              <div style="display:flex; align-items:center; gap:7px">
+                <span style="width:6px; height:6px; border-radius:99px; background:{{ k.dot }}; flex:0 0 auto"></span>
+                <span style="font-size:11px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:{{ k.labelColor }}">{{ k.label }}</span>
+              </div>
+              <div style="display:flex; align-items:baseline; gap:6px; margin-top:10px">
+                <span style="font-size:36px; font-weight:500; letter-spacing:-.02em; line-height:1; font-variant-numeric:tabular-nums; color:{{ k.valueColor }}">{{ k.value }}</span>
+                <span style="font-size:12px; color:{{ t.mut }}">{{ k.unit }}</span>
+              </div>
+              <div style="display:flex; align-items:baseline; gap:8px; margin-top:9px">
+                <span style="font-size:11px; color:{{ t.mut }}">{{ k.delta }}</span>
+                <span style="margin-left:auto; font-size:11px; font-weight:700; color:{{ k.deltaColor }}">{{ k.trend }}</span>
+              </div>
+              <svg viewBox="0 0 100 26" preserveAspectRatio="none" style="width:100%; height:24px; margin-top:11px; display:block">
+                <path d="{{ k.sparkArea }}" fill="{{ k.sparkFill }}"></path>
+                <path d="{{ k.sparkLine }}" fill="none" stroke="{{ k.sparkColor }}" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
+              </svg>
+            </div>
+          </sc-for>
+        </div>
+
+        <section style="display:flex; flex-direction:column; padding:16px; border-radius:18px; background:{{ t.cardGrad }}; border:1px solid {{ t.bd }}">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px">
+            <h2 style="margin:0; display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.11em; text-transform:uppercase"><span style="width:6px; height:6px; border-radius:99px; background:{{ t.accTxt }}; flex:0 0 auto"></span>Lo que más sale · {{ scopeName }}</h2>
+            <span style="font-family:Roboto,sans-serif; font-size:11px; color:{{ t.mut }}; letter-spacing:.1em; text-transform:uppercase">30 días</span>
+          </div>
+          <div style="display:flex; flex-direction:column; margin-top:6px">
+            <sc-for list="{{ products }}" as="p" hint-placeholder-count="8">
+              <div style="padding:13px 0; border-bottom:1px solid {{ t.bd4 }}; display:flex; flex-direction:column; gap:8px">
+                <div style="display:flex; align-items:baseline; gap:10px">
+                  <span style="font-family:Roboto,sans-serif; font-size:11px; color:{{ t.mut }}; width:18px">{{ p.pos }}</span>
+                  <span style="font-size:13px; font-weight:700; line-height:1.25">{{ p.name }}</span>
+                  <span style="margin-left:auto; font-family:Roboto,sans-serif; font-size:12px; font-weight:700">{{ p.units }} u</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px; padding-left:28px; flex-wrap:wrap">
+                  <div style="flex:1; min-width:110px; height:6px; border-radius:99px; background:{{ t.track }}; overflow:hidden">
+                    <div style="width:{{ p.pct }}%; height:100%; background:{{ p.barColor }}; border-radius:99px"></div>
+                  </div>
+                  <span style="font-family:Roboto,sans-serif; font-size:11px; padding:3px 7px; border-radius:99px; background:{{ p.rotBg }}; color:{{ p.rotFg }}">rot {{ p.rot }}×</span>
+                  <span style="font-family:Roboto,sans-serif; font-size:11px; color:{{ t.mut }}">{{ p.stock }} días stock</span>
+                  <span style="font-family:Roboto,sans-serif; font-size:11px; color:{{ p.trendColor }}">{{ p.trend }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section style="display:flex; flex-direction:column; padding:16px; border-radius:18px; background:{{ t.cardGrad }}; border:1px solid {{ t.bd }}">
+          <h2 style="margin:0 0 14px; display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.11em; text-transform:uppercase"><span style="width:6px; height:6px; border-radius:99px; background:{{ t.accTxt }}; flex:0 0 auto"></span>Alertas de rotación</h2>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:10px">
+            <sc-for list="{{ alerts }}" as="a" hint-placeholder-count="3">
+              <div style="padding:13px; border-radius:14px; background:{{ t.inset }}; border-left:0; border:1px solid {{ a.border }}">
+                <div style="font-family:Roboto,sans-serif; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:{{ a.tagColor }}">{{ a.tag }}</div>
+                <div style="font-size:12.5px; line-height:1.45; margin-top:7px; color:{{ t.body2 }}">{{ a.text }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <footer style="margin-top:20px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-family:Roboto,sans-serif; font-size:11px; color:{{ t.faint }}; letter-spacing:.06em; text-transform:uppercase">
+      <span>Demo · datos simulados en vivo</span>
+      <span style="color:{{ t.rule }}">/</span>
+      <span>Un estilo diferente para tu hogar</span>
+    </footer>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;layoutWidth&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;compacto&quot;,&quot;amplio&quot;,&quot;completo&quot;],&quot;default&quot;:&quot;amplio&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Apariencia&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;dark&quot;,&quot;light&quot;],&quot;default&quot;:&quot;dark&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Apariencia&quot;},&quot;currency&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;$&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Datos&quot;},&quot;goalFactor&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.7,&quot;max&quot;:1.4,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Datos&quot;},&quot;liveUpdates&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamiento&quot;}}">
+class Component extends DCLogic {
+  LOCALES = [
+    { id:'centro', name:'Centro',    metaDia:3800, metaMes:98000, w:1.00 },
+    { id:'mall',   name:'Mall',      metaDia:3400, metaMes:88000, w:0.93 },
+    { id:'norte',  name:'Norte',     metaDia:3000, metaMes:76000, w:0.80 },
+    { id:'sur',    name:'Sur',       metaDia:2400, metaMes:60000, w:0.64 }
+  ];
+  HOURS = [10,11,12,13,14,15,16,17,18,19,20];
+  PROFILE = [0.42,0.60,0.86,0.98,0.68,0.54,0.74,0.96,1.18,0.92,0.52];
+  METHODS = [
+    { id:'tarjeta', name:'Tarjeta crédito', w:0.34, color:'#ED0B4C' },
+    { id:'credito', name:'Crédito directo', w:0.29, color:'#8E0630' },
+    { id:'efectivo', name:'Efectivo',       w:0.22, color:'#55555C' },
+    { id:'transfer', name:'Transferencia',  w:0.15, color:'#FF7FA2' }
+  ];
+  CATALOG = [
+    'Juego de sala Milano 3-2-1', 'Colchón ortopédico 2 plazas', 'Comedor 6 sillas Roble',
+    'Sofá cama Bristol', 'Modular de TV Nórdico', 'Cabecera King capitoné',
+    'Butaca Lyon tapizada', 'Ropero 3 puertas espejo', 'Mesa de centro Oslo',
+    'Velador minimalista (par)'
+  ];
+  CATS = ['Salas','Colchones','Comedores','Salas','Complementos','Dormitorio','Salas','Dormitorio','Complementos','Dormitorio'];
+  PRICES = [1450, 520, 980, 760, 430, 390, 340, 690, 210, 165];
+  state = { theme:null, tab:'hoy', local:'global', extra:{}, feed:[], clock:'', tick:0 };
+
+  rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+
+  data = this.build();
+
+  build() {
+    const r = this.rng(20260916);
+    const sum = this.PROFILE.reduce((a,b)=>a+b,0);
+    const locales = this.LOCALES.map(L => {
+      const hours = this.PROFILE.map(p => Math.round(L.metaDia * 1.04 * (p/sum) * (0.82+r()*0.42) / 10) * 10);
+      const avgTicket = 360 + Math.round(r()*180);
+      const days = [];
+      for (let d=1; d<=16; d++) {
+        const wd = new Date(2026,8,d).getDay();
+        const boost = wd===6 ? 1.35 : wd===0 ? 0.55 : 1;
+        days.push(Math.round(L.metaDia * boost * (0.78+r()*0.5) / 10) * 10);
+      }
+      const prods = this.CATALOG.map((n,i) => ({
+        name:n,
+        units: Math.max(3, Math.round((26 - i*2.1) * L.w * (0.7+r()*0.7))),
+        rot: +(2.9 - i*0.22 + r()*0.7).toFixed(1),
+        stock: Math.round(9 + i*5 + r()*14),
+        trendUp: r() > (0.32 + i*0.04)
+      }));
+      const methods = this.METHODS.map(m => ({ id:m.id, w: Math.max(0.05, m.w * (0.8+r()*0.45)) }));
+      const mw = methods.reduce((a,b)=>a+b.w,0);
+      methods.forEach(m => m.w = m.w/mw);
+      return { ...L, hours, avgTicket, days, prods, methods };
+    });
+    return { locales };
+  }
+
+  componentDidMount() {
+    this.setState({ feed: this.seedFeed() });
+    this.ci = setInterval(() => this.setState({ clock: this.timeStr(new Date()) }), 1000);
+    this.li = setInterval(() => { if (this.props.liveUpdates !== false) this.pushSale(); }, 9000);
+    this.setState({ clock: this.timeStr(new Date()) });
+  }
+  componentWillUnmount() { clearInterval(this.ci); clearInterval(this.li); }
+
+  timeStr(d) { return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0') + ':' + String(d.getSeconds()).padStart(2,'0'); }
+  hm(d) { return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0'); }
+  fmt(n) {
+    const s = Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return (this.props.currency || '$') + ' ' + s;
+  }
+
+  seedFeed() {
+    const r = this.rng(777); const out = []; const now = Date.now();
+    for (let i=0;i<7;i++) out.push(this.makeSale(r, new Date(now - (i*7+3)*60000)));
+    return out;
+  }
+  makeSale(r, when) {
+    const L = this.data.locales[Math.floor(r()*4)];
+    const p = this.CATALOG[Math.floor(r()*this.CATALOG.length)];
+    const m = this.METHODS[Math.floor(r()*this.METHODS.length)];
+    const amt = Math.round((180 + r()*1450)/10)*10;
+    return { id:Math.random(), localId:L.id, local:L.name, product:p, method:m.name, amountRaw:amt, time:this.hm(when) };
+  }
+  pushSale() {
+    const r = this.rng(Date.now() & 0xffffff);
+    const s = this.makeSale(r, new Date());
+    const L = this.data.locales.find(x => x.id === s.localId);
+    this.setState(st => {
+      const cur = st.extra[s.localId] || { amt:0, tk:0 };
+      const cap = L.metaDia * 0.12; // el simulador nunca infla más de 12% de la meta diaria
+      if (cur.amt + s.amountRaw > cap) return { feed: [s, ...st.feed].slice(0,14) };
+      const ex = { ...st.extra };
+      ex[s.localId] = { amt: cur.amt + s.amountRaw, tk: cur.tk + 1 };
+      return { extra: ex, feed: [s, ...st.feed].slice(0,14), tick: st.tick+1 };
+    });
+  }
+
+  isOpen() { const h = new Date().getHours(); return h >= 10 && h <= 20; }
+  nowHourIdx() {
+    const h = new Date().getHours();
+    if (h < 10) return 0;
+    if (h > 20) return this.HOURS.length - 1;
+    return h - 10;
+  }
+  dayProgress() {
+    const d = new Date(), h = d.getHours() + d.getMinutes()/60;
+    return Math.min(1, Math.max(0.08, (h - 10) / 11));
+  }
+
+  scope() {
+    const l = this.state.local;
+    return l === 'global' ? this.data.locales : this.data.locales.filter(x => x.id === l);
+  }
+
+  todayOf(L) {
+    const idx = this.nowHourIdx();
+    const realized = L.hours.slice(0, idx+1).reduce((a,b)=>a+b,0);
+    const ex = this.state.extra[L.id] || { amt:0, tk:0 };
+    const amt = realized + ex.amt;
+    const tk = Math.max(1, Math.round(realized / L.avgTicket)) + ex.tk;
+    return { amt, tk, full: L.hours.reduce((a,b)=>a+b,0) + ex.amt };
+  }
+
+  renderVals() {
+    const dark = (this.state.theme || this.props.theme || 'dark') === 'dark';
+    const t = dark ? {
+      bg:'#08080A', bgFade:'rgba(8,8,10,0)', card:'#0F0F11', chip:'#131316', inset:'#17171B', track:'#232328',
+      bd:'rgba(255,255,255,.11)', bd2:'rgba(255,255,255,.14)', bd3:'rgba(255,255,255,.16)', bd4:'rgba(255,255,255,.09)',
+      ink:'#FBFBFC', body:'#D2D2DA', body2:'#E8E8EE', mut:'#A8A8B2', faint:'#92929C', ghostTxt:'#5E5E68', rule:'#35353C',
+      bar2:'rgba(251,251,252,.58)', bar3:'rgba(251,251,252,.42)', bar4:'rgba(251,251,252,.44)', bar5:'rgba(251,251,252,.36)',
+      ghost:'rgba(251,251,252,.10)', ghostRing:'rgba(251,251,252,.18)', area:'rgba(251,251,252,.10)',
+      line:'#FBFBFC', metaLine:'#5E5E68', accSoft:'rgba(237,11,76,.16)', accBd:'rgba(237,11,76,.45)',
+      rotBg:'rgba(237,11,76,.22)', rotFg:'#FF9EB9', accTxt:'#FF8AAB', ok:'#6FE09A',
+      cardGrad:'linear-gradient(165deg,#131317,#0C0C0E)',
+      heroBg:'linear-gradient(158deg,rgba(237,11,76,.24),rgba(237,11,76,.05) 55%,#0E0E11)',
+      gridBg:'repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 34px),repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 1px,transparent 1px 34px),linear-gradient(165deg,#131317,#0C0C0E)'
+    } : {
+      bg:'#F4F2F0', bgFade:'rgba(244,242,240,0)', card:'#FFFFFF', chip:'#FFFFFF', inset:'#F2F0ED', track:'#E4E0DC',
+      bd:'rgba(18,16,20,.13)', bd2:'rgba(18,16,20,.16)', bd3:'rgba(18,16,20,.18)', bd4:'rgba(18,16,20,.10)',
+      ink:'#131318', body:'#3C3C46', body2:'#25252D', mut:'#5C5C66', faint:'#6C6C76', ghostTxt:'#A4A4AE', rule:'#CECAC6',
+      bar2:'rgba(19,19,24,.46)', bar3:'rgba(19,19,24,.32)', bar4:'rgba(19,19,24,.34)', bar5:'rgba(19,19,24,.26)',
+      ghost:'rgba(19,19,24,.08)', ghostRing:'rgba(19,19,24,.14)', area:'rgba(19,19,24,.07)',
+      line:'#131318', metaLine:'#A4A4AE', accSoft:'rgba(237,11,76,.09)', accBd:'rgba(237,11,76,.38)',
+      rotBg:'rgba(237,11,76,.12)', rotFg:'#AE0736', accTxt:'#C10A3E', ok:'#12764A',
+      cardGrad:'linear-gradient(165deg,#FFFFFF,#FAF8F5)',
+      heroBg:'linear-gradient(158deg,rgba(237,11,76,.14),rgba(237,11,76,.03) 55%,#FFFFFF)',
+      gridBg:'repeating-linear-gradient(0deg,rgba(19,19,24,.05) 0 1px,transparent 1px 34px),repeating-linear-gradient(90deg,rgba(19,19,24,.05) 0 1px,transparent 1px 34px),linear-gradient(165deg,#FFFFFF,#FAF8F5)'
+    };
+    const ACC='#ED0B4C', ACCT=t.accTxt, INK=t.ink, MUT=t.mut, OK=t.ok;
+    const themeBtn = { label: dark ? 'Claro' : 'Oscuro', bg:t.chip, fg:t.mut, border:t.bd2,
+      onClick: () => this.setState({ theme: dark ? 'light' : 'dark' }) };
+    const scope = this.scope();
+    const sc = this.state.local;
+    const hourIdx = this.nowHourIdx();
+    const scopeName = sc === 'global' ? 'Los 4 locales' : this.data.locales.find(l=>l.id===sc).name;
+
+    const tabs = [['hoy','Hoy'],['mes','Mes'],['prod','Rotación']].map(([id,label]) => ({
+      id, label, bg: this.state.tab===id ? ACC : 'transparent', fg: this.state.tab===id ? '#fff' : MUT,
+      onClick: () => this.setState({ tab:id })
+    }));
+
+    const localChips = [{ id:'global', name:'Global', sub:'4 locales' }].concat(
+      this.data.locales.map(L => ({ id:L.id, name:L.name, sub: this.fmt(this.todayOf(L).amt) }))
+    ).map(c => {
+      const on = sc === c.id;
+      return { ...c, sub: c.id==='global' ? this.fmt(this.data.locales.reduce((a,L)=>a+this.todayOf(L).amt,0)) : c.sub,
+        bg: on ? ACC : t.chip, fg: on ? '#fff' : INK, border: on ? ACC : t.bd2,
+        onClick: () => this.setState({ local: c.id }) };
+    });
+
+    // --- HOY
+    const today = scope.reduce((a,L)=>a+this.todayOf(L).amt, 0);
+    const tickets = scope.reduce((a,L)=>a+this.todayOf(L).tk, 0);
+    const projDay = scope.reduce((a,L)=>a+this.todayOf(L).full, 0);
+    const metaDia = scope.reduce((a,L)=>a+L.metaDia, 0) * (this.props.goalFactor || 1);
+    const open = this.isOpen();
+    const ayerFull = scope.reduce((a,L)=>a + L.days[14], 0);
+    const ayer = open ? ayerFull * this.dayProgress() : ayerFull;
+    const dAyer = Math.round((today/Math.max(1,ayer)-1)*100);
+    const metaPctDay = Math.round(today/metaDia*100);
+
+    const card = (label, value, delta, good, opts) => {
+      opts = opts || {};
+      let v = String(value), unit = opts.unit || '';
+      if (!unit && v.endsWith('%')) { v = v.slice(0,-1); unit = '%'; }
+      const col = good === null ? MUT : good ? OK : ACCT;
+      const rb = this.rng(label.length*7919 + v.length*131 + 7);
+      const pts = [];
+      for (let b=0; b<14; b++) pts.push(22 - (0.2+rb()*0.8) * 18);
+      const step = 100/(pts.length-1);
+      let sparkLine = '', sparkArea = '';
+      pts.forEach((y,ix) => { sparkLine += (ix?' L':'M') + (ix*step).toFixed(1) + ' ' + y.toFixed(1); });
+      sparkArea = sparkLine + ' L100 24 L0 24 Z';
+      const sparkColor = opts.hero ? '#FF7FA2' : t.bar3;
+      const sparkFill = opts.hero ? 'rgba(237,11,76,.22)' : t.ghost;
+      return { label, value: v, unit, delta,
+        trend: good === null ? '' : good ? '\u25B2' : '\u25BC',
+        deltaColor: col, labelColor: opts.hero ? ACCT : MUT,
+        dot: opts.hero ? ACC : (good === null ? t.faint : col),
+        valueColor: t.ink, bg: opts.hero ? t.heroBg : t.cardGrad,
+        border: opts.hero ? t.accBd : t.bd, sparkLine, sparkArea, sparkColor, sparkFill };
+    };
+    const kpisHoy = [
+      card('Ventas hoy', this.fmt(today), (dAyer>=0?'+':'') + dAyer + '% vs ayer a esta hora', dAyer >= 0, { hero:true }),
+      card('Tickets', String(tickets), 'promedio ' + this.fmt(today/Math.max(1,tickets)), null, { unit:'tickets' }),
+      card('Meta del día', metaPctDay + '%', this.fmt(Math.max(0, metaDia-today)) + ' faltan', metaPctDay >= 70),
+      open
+        ? card('Cierre estimado', this.fmt(projDay), projDay >= metaDia ? 'supera la meta' : 'bajo meta', projDay >= metaDia)
+        : card('Último día de venta', this.fmt(ayerFull), 'ayer · ' + (today>=ayerFull ? 'hoy superó el día' : 'hoy quedó debajo'), today >= ayerFull)
+    ];
+
+    const maxToday = Math.max(...this.data.locales.map(L=>this.todayOf(L).amt));
+    const shareColors = [ACC, 'rgba(237,11,76,.60)', t.bar3, t.bar5];
+    const rkSorted = this.data.locales.map(L => ({ L, t: this.todayOf(L) })).sort((a,b) => b.t.amt - a.t.amt);
+    const rkTotal = rkSorted.reduce((a,x)=>a+x.t.amt,0);
+    let rkAcc = 0; const rkStops = [];
+    rkSorted.forEach((x,i) => { const from = rkAcc; rkAcc += x.t.amt/rkTotal*100;
+      rkStops.push(shareColors[i] + ' ' + from.toFixed(1) + '% ' + rkAcc.toFixed(1) + '%'); });
+    const localDonut = 'conic-gradient(' + rkStops.join(', ') + ')';
+    const localTotal = this.fmt(rkTotal);
+    const ranking = rkSorted
+      .map((x, i) => {
+        const mp = Math.round(x.t.amt / (x.L.metaDia*(this.props.goalFactor||1)) * 100);
+        return {
+          pos: '0'+(i+1), color: shareColors[i], share: Math.round(x.t.amt/rkTotal*100), name: x.L.name, tickets: x.t.tk, amount: this.fmt(x.t.amt),
+          pct: Math.round(x.t.amt/maxToday*100), meta: this.fmt(x.L.metaDia*(this.props.goalFactor||1)),
+          metaPct: mp, metaColor: mp >= 80 ? OK : mp >= 55 ? MUT : ACCT,
+          barColor: i === 0 ? ACC : t.bar2,
+          nameColor: sc === x.L.id ? ACCT : INK,
+          onClick: () => this.setState({ local: sc === x.L.id ? 'global' : x.L.id })
+        };
+      });
+
+    const hourTotals = this.HOURS.map((h,i) => scope.reduce((a,L)=>a+L.hours[i], 0));
+    const maxHour = Math.max(...hourTotals);
+    const peakIdx = hourTotals.indexOf(maxHour);
+    const hourBars = this.HOURS.map((h,i) => {
+      const future = i > hourIdx;
+      return {
+        label: h + 'h', h: Math.round(hourTotals[i]/maxHour*100),
+        color: i === peakIdx ? ACC : future ? t.ghost : t.bar3,
+        ring: future ? t.ghostRing : 'transparent',
+        labelColor: i === peakIdx ? ACCT : future ? t.ghostTxt : MUT,
+        onClick: () => {}
+      };
+    });
+    const peakHour = this.HOURS[peakIdx] + ':00 – ' + (this.HOURS[peakIdx]+1) + ':00';
+    const share = Math.round(hourTotals[peakIdx]/hourTotals.reduce((a,b)=>a+b,0)*100);
+    const hourInsight = 'El ' + share + '% de la venta diaria entra entre ' + this.HOURS[peakIdx] + 'h y ' + (this.HOURS[peakIdx]+2) + 'h. Refuerza asesores en ese bloque y agenda entregas antes de las ' + (this.HOURS[peakIdx]-2) + 'h.';
+
+    const mw = this.METHODS.map(m => scope.reduce((a,L)=>a + this.todayOf(L).amt * L.methods.find(x=>x.id===m.id).w, 0));
+    const mTot = mw.reduce((a,b)=>a+b,0);
+    let acc = 0;
+    const stops = [];
+    const payments = this.METHODS.map((m,i) => {
+      const pct = Math.round(mw[i]/mTot*100);
+      const from = acc; acc += mw[i]/mTot*100;
+      stops.push(m.color + ' ' + from.toFixed(1) + '% ' + acc.toFixed(1) + '%');
+      const tk = Math.max(1, Math.round(tickets * (mw[i]/mTot)));
+      return { name:m.name, color:m.color, pct, amount:this.fmt(mw[i]),
+        tickets: tk, avg: this.fmt(mw[i]/tk), avgRaw: mw[i]/tk, bar: Math.round(mw[i]/Math.max(...mw)*100) };
+    });
+    const donut = 'conic-gradient(' + stops.join(', ') + ')';
+    const payTop = payments.slice().sort((a,b)=>b.pct-a.pct)[0];
+    const payLow = payments.slice().sort((a,b)=>a.pct-b.pct)[0];
+    const payAvgTop = payments.slice().sort((a,b)=>b.avgRaw-a.avgRaw)[0];
+    const payTodayInsight = payAvgTop.name === payLow.name
+      ? payTop.name + ' lidera con ' + payTop.pct + '% del día; el ticket promedio más alto es ' + payAvgTop.name.toLowerCase() + ' (' + payAvgTop.avg + '), aunque solo aporta ' + payLow.pct + '% de la venta.'
+      : payTop.name + ' lidera con ' + payTop.pct + '% del día; el ticket promedio más alto es ' + payAvgTop.name.toLowerCase() + ' (' + payAvgTop.avg + ') y ' + payLow.name.toLowerCase() + ' se queda en ' + payLow.pct + '%.';
+
+    const feed = this.state.feed
+      .filter(f => sc === 'global' || f.localId === sc)
+      .slice(0,5)
+      .map(f => ({ ...f, amount: this.fmt(f.amountRaw) }));
+
+    // --- MES
+    const daysDone = 16, daysMonth = 30;
+    const monthSeries = [];
+    for (let d=0; d<daysDone; d++) monthSeries.push(scope.reduce((a,L)=>a+L.days[d], 0));
+    const monthTotal = monthSeries.reduce((a,b)=>a+b,0) + (today - scope.reduce((a,L)=>a+L.hours.slice(0,hourIdx+1).reduce((x,y)=>x+y,0),0));
+    const avgDay = monthTotal/daysDone;
+    const projMonth = Math.round(avgDay * daysMonth);
+    const metaMes = scope.reduce((a,L)=>a+L.metaMes, 0) * (this.props.goalFactor || 1);
+    const bestIdx = monthSeries.indexOf(Math.max(...monthSeries));
+
+    const kpisMes = [
+      card('Ventas del mes', this.fmt(monthTotal), daysDone + ' de ' + daysMonth + ' días', null, { hero:true }),
+      card('Meta del mes', Math.round(monthTotal/metaMes*100) + '%', 'de ' + this.fmt(metaMes), monthTotal/metaMes >= daysDone/daysMonth),
+      card('Proyección cierre', this.fmt(projMonth), projMonth >= metaMes ? '+' + this.fmt(projMonth-metaMes) + ' sobre meta' : this.fmt(metaMes-projMonth) + ' bajo meta', projMonth >= metaMes),
+      card('Promedio diario', this.fmt(avgDay), 'mejor día: ' + (bestIdx+1) + ' sep', null)
+    ];
+
+    const allDays = monthSeries.concat([]);
+    const projDaily = avgDay * 1.02;
+    const maxV = Math.max(...allDays, projDaily) * 1.12;
+    const X = d => 14 + (d/(daysMonth-1)) * 612;
+    const Y = v => 182 - (v/maxV) * 160;
+    const real = allDays.map((v,i) => (i?'L':'M') + X(i).toFixed(1) + ' ' + Y(v).toFixed(1)).join(' ');
+    const area = real + ' L' + X(daysDone-1).toFixed(1) + ' 182 L14 182 Z';
+    let proj = 'M' + X(daysDone-1).toFixed(1) + ' ' + Y(allDays[daysDone-1]).toFixed(1);
+    for (let d=daysDone; d<daysMonth; d++) proj += ' L' + X(d).toFixed(1) + ' ' + Y(projDaily * (0.94 + (d%7===6?0.3:0))).toFixed(1);
+    const chart = {
+      real, area, proj,
+      metaY: Y(metaMes/daysMonth).toFixed(1),
+      cx: X(daysDone-1).toFixed(1), cy: Y(allDays[daysDone-1]).toFixed(1),
+      ticks: [1,7,14,21,30].map(d => ({ x: X(d-1).toFixed(1), label: String(d) }))
+    };
+    const gap = Math.round((projMonth/metaMes-1)*100);
+    const daysLeft = daysMonth - daysDone;
+    const needDaily = (metaMes - monthTotal) / daysLeft;
+    const head = 'Al ritmo actual (' + this.fmt(avgDay) + '/día) el mes cierra en ' + this.fmt(projMonth) + ', ' + Math.abs(gap) + '% ' + (gap>=0?'sobre':'bajo') + ' la meta. ';
+    const projInsight = head + (gap >= 0
+      ? (needDaily <= 0
+          ? 'La meta ya está cubierta; todo lo que entre en los ' + daysLeft + ' días restantes es excedente.'
+          : 'Basta con mantener ' + this.fmt(needDaily) + ' diarios los ' + daysLeft + ' días restantes para asegurarla.')
+      : 'Para alcanzarla necesitas ' + this.fmt(needDaily) + ' diarios los ' + daysLeft + ' días restantes, ' + this.fmt(needDaily - avgDay) + ' más que tu promedio actual.');
+
+    const maxProj = Math.max(...this.data.locales.map(L => L.days.reduce((a,b)=>a+b,0)/daysDone*daysMonth));
+    const projRows = this.data.locales.map(L => {
+      const a = L.days.reduce((x,y)=>x+y,0);
+      const p = Math.round(a/daysDone*daysMonth);
+      const meta = L.metaMes * (this.props.goalFactor||1);
+      const d = Math.round((p/meta-1)*100);
+      return {
+        name: L.name, actual: this.fmt(a), proj: this.fmt(p),
+        pctReal: Math.round(a/maxProj*100), pctProj: Math.round((p-a)/maxProj*100),
+        status: (d>=0?'+':'') + d + '% vs meta · ' + (d>=0 ? 'en ruta' : 'requiere empuje'),
+        statusColor: d >= 0 ? OK : ACCT
+      };
+    }).sort((a,b) => b.pctReal - a.pctReal);
+
+    const mwMonth = this.METHODS.map(m => scope.reduce((a,L)=>a + L.days.reduce((x,y)=>x+y,0) * L.methods.find(x=>x.id===m.id).w, 0));
+    const mtM = mwMonth.reduce((a,b)=>a+b,0);
+    const paymentsMonth = this.METHODS.map((m,i) => ({ name:m.name, color:m.color, amount:this.fmt(mwMonth[i]), pct: Math.round(mwMonth[i]/mtM*100) }));
+    const topPay = paymentsMonth.slice().sort((a,b)=>b.pct-a.pct)[0];
+    const cred = paymentsMonth.find(p=>p.name==='Crédito directo');
+    const payInsight = topPay.name + ' concentra el ' + topPay.pct + '% del mes. El crédito directo (' + cred.pct + '%) es cartera propia: revisa cobranza antes de ampliar cupos.';
+
+    // --- PRODUCTOS
+    const pAgg = this.CATALOG.map((n,i) => {
+      const units = scope.reduce((a,L)=>a+L.prods[i].units, 0);
+      const rot = +(scope.reduce((a,L)=>a+L.prods[i].rot, 0)/scope.length).toFixed(1);
+      const stock = Math.round(scope.reduce((a,L)=>a+L.prods[i].stock, 0)/scope.length);
+      const up = scope.filter(L=>L.prods[i].trendUp).length >= scope.length/2;
+      return { name:n, units, rot, stock, up };
+    }).sort((a,b)=>b.units-a.units);
+    const maxU = pAgg[0].units;
+    const products = pAgg.map((p,i) => ({
+      pos: String(i+1).padStart(2,'0'), name:p.name, units:p.units, pct: Math.round(p.units/maxU*100),
+      barColor: i < 3 ? ACC : t.bar4,
+      rot: p.rot.toFixed(1), rotBg: p.rot >= 2 ? t.rotBg : t.track, rotFg: p.rot >= 2 ? t.rotFg : MUT,
+      stock: p.stock, trend: p.up ? '▲ sube' : '▼ baja', trendColor: p.up ? OK : MUT
+    }));
+    const unitsTot = pAgg.reduce((a,p)=>a+p.units,0);
+    const rotAvg = (pAgg.reduce((a,p)=>a+p.rot,0)/pAgg.length).toFixed(1);
+    const stockAvg = Math.round(pAgg.reduce((a,p)=>a+p.stock,0)/pAgg.length);
+    const kpisProd = [
+      card('Unidades vendidas', String(unitsTot), 'últimos 30 días', null, { hero:true, unit:'u' }),
+      card('Índice de rotación', rotAvg + '×', 'veces al mes', rotAvg >= 1.8),
+      card('Días de inventario', String(stockAvg), 'promedio de catálogo', stockAvg <= 45, { unit:'días' })
+    ];
+    const catMap = {};
+    this.CATALOG.forEach((n,i) => {
+      const c = this.CATS[i];
+      const units = scope.reduce((a,L)=>a+L.prods[i].units, 0);
+      const rot = scope.reduce((a,L)=>a+L.prods[i].rot, 0)/scope.length;
+      const cur = catMap[c] || { name:c, units:0, amt:0, rotSum:0, n:0 };
+      cur.units += units; cur.amt += units * this.PRICES[i]; cur.rotSum += rot; cur.n++;
+      catMap[c] = cur;
+    });
+    const per = this.state.catPeriod || 'hoy';
+    const pf = per === 'hoy' ? this.dayProgress()/30 : per === 'anio' ? 11.4 : 1;
+    const catList = Object.values(catMap)
+      .map(c => ({ ...c, amt: c.amt*pf, units: Math.max(1, Math.round(c.units*pf)) }))
+      .sort((a,b)=>b.amt-a.amt);
+    const catTotal = catList.reduce((a,c)=>a+c.amt,0);
+    const catMax = catList[0].amt;
+    const catPeriods = [['hoy','Hoy'],['mes','Mes'],['anio','Año']].map(([id,label]) => ({
+      id, label, bg: per===id ? 'rgba(237,11,76,.18)' : 'transparent',
+      fg: per===id ? ACCT : MUT, border: per===id ? 'rgba(237,11,76,.4)' : t.bd3,
+      onClick: () => this.setState({ catPeriod:id })
+    }));
+    const catRows = catList.map((c,i) => ({
+      name: c.name, amount: this.fmt(c.amt), units: c.units + ' u',
+      share: Math.round(c.amt/catTotal*100),
+      pct: Math.round(c.amt/catMax*100),
+      rot: (c.rotSum/c.n).toFixed(1),
+      barColor: i === 0 ? ACC : i === 1 ? 'rgba(237,11,76,.55)' : t.bar5,
+      labelColor: i === 0 ? ACCT : INK
+    }));
+    const perName = per === 'hoy' ? 'del día' : per === 'anio' ? 'del año' : 'del mes';
+    const catInsight = catList[0].name + ' aporta el ' + Math.round(catList[0].amt/catTotal*100) + '% de la facturación ' + perName + ' con ' + catList[0].units + ' unidades; ' + catList[catList.length-1].name.toLowerCase() + ' solo el ' + Math.round(catList[catList.length-1].amt/catTotal*100) + '%. Ahí está el margen para armar combos.';
+
+    const slow = pAgg.slice().sort((a,b)=>b.stock-a.stock)[0];
+    const fast = pAgg[0];
+    const alerts = [
+      { tag:'Quiebre cercano', text: fast.name + ' rota ' + fast.rot.toFixed(1) + '× al mes y quedan ' + fast.stock + ' días de stock en ' + scopeName.toLowerCase() + '. Repón esta semana.', border:t.accBd, tagColor:ACCT },
+      { tag:'Baja rotación', text: slow.name + ' acumula ' + slow.stock + ' días de inventario. Candidato a promoción o traslado al local con más demanda.', border:t.bd2, tagColor:MUT },
+      { tag:'Oportunidad', text: 'Los combos sala + mesa de centro cierran ticket ' + this.fmt(this.props.currency ? 520 : 520) + ' más alto. Impúlsalos en el bloque de ' + this.HOURS[peakIdx] + 'h.', border:t.bd2, tagColor:MUT }
+    ];
+
+    return {
+      t, themeBtn, maxW: ({ compacto:'1180px', amplio:'1500px', completo:'100%' })[this.props.layoutWidth || 'amplio'],
+      clock: this.state.clock, tabs, localChips, scopeName,
+      isHoy: this.state.tab === 'hoy', isMes: this.state.tab === 'mes', isProd: this.state.tab === 'prod',
+      kpisHoy, ranking, localDonut, localTotal, hourBars, peakHour, hourInsight, payments, donut, payTodayInsight, ticketsToday: tickets, feed,
+      feedStatus: this.props.liveUpdates === false ? 'pausado' : 'tiempo real',
+      kpisMes, chart, projInsight, projRows, paymentsMonth, payInsight,
+      kpisProd, products, alerts, catRows, catInsight, catPeriods
+    };
+  }
+}
+</script>
+</body>
+</html>

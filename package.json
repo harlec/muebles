@@ -1,0 +1,11 @@
+{
+  "name": "muebles-dashboard",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i ./public/css/input.css -o ./public/css/app.css --minify",
+    "watch:css": "tailwindcss -i ./public/css/input.css -o ./public/css/app.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}
