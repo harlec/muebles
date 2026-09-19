@@ -168,8 +168,8 @@ function renderRanking(ranking, fecha) {
     li.dataset.local = r.id;
     li.innerHTML = `
       <div class="flex items-center justify-between">
-        <span>${String(i + 1).padStart(2, '0')} · ${r.nombre}</span>
-        <span>${money(r.monto)}</span>
+        <span class="font-medium">${String(i + 1).padStart(2, '0')} · ${r.nombre}</span>
+        <span class="font-bold">${money(r.monto)}</span>
       </div>
       <div class="h-2 rounded mt-1" style="background:var(--track)">
         <div class="h-2 rounded" style="width:${Math.min(metaPct, 100)}%; background:${i === 0 ? '#ED0B4C' : 'var(--bar2)'}"></div>
@@ -218,8 +218,8 @@ function renderPagos(mix, targetId) {
     li.className = 'py-1.5';
     li.innerHTML = `
       <div class="flex items-center justify-between">
-        <span>${PAY_LABELS[m.metodo_pago] || m.metodo_pago}</span>
-        <span>${money(m.monto)} · ${pct(p)}</span>
+        <span class="font-medium">${PAY_LABELS[m.metodo_pago] || m.metodo_pago}</span>
+        <span class="font-bold">${money(m.monto)} · ${pct(p)}</span>
       </div>
       <div class="h-1.5 rounded mt-1" style="background:var(--track)">
         <div class="h-1.5 rounded" style="width:${p}%; background:#ED0B4C"></div>
@@ -240,8 +240,8 @@ function renderCategorias(categorias) {
     li.className = 'py-1.5';
     li.innerHTML = `
       <div class="flex items-center justify-between">
-        <span style="${i === 0 ? 'color:var(--acc-txt);font-weight:700' : ''}">${c.categoria}</span>
-        <span>${money(c.monto)} · ${pct(p)}</span>
+        <span class="font-bold" style="${i === 0 ? 'color:var(--acc-txt)' : ''}">${c.categoria}</span>
+        <span class="font-bold">${money(c.monto)} · ${pct(p)}</span>
       </div>
       <div class="h-2 rounded mt-1" style="background:var(--track)">
         <div class="h-2 rounded" style="width:${p}%; background:${i === 0 ? '#ED0B4C' : 'var(--bar5)'}"></div>
@@ -260,7 +260,7 @@ function renderFeed(ventas) {
     const hora = new Date(v.creado_en).toTimeString().slice(0, 5);
     li.innerHTML = `
       <span class="w-10 font-bold" style="color:#ED0B4C">${hora}</span>
-      <span class="flex-1 truncate">${v.producto_nombre}</span>
+      <span class="flex-1 truncate font-semibold">${v.producto_nombre}</span>
       <span class="text-[11px]" style="color:var(--mut)">${v.local_nombre} · ${PAY_LABELS[v.metodo_pago] || v.metodo_pago}</span>
       <span class="font-bold">${money(v.monto)}</span>
     `;
@@ -314,7 +314,7 @@ function renderProyeccionLocal(porLocal, diaActual, diasDelMes) {
     li.className = 'py-1.5';
     li.innerHTML = `
       <div class="flex items-center justify-between">
-        <span>${l.nombre}</span>
+        <span class="font-medium">${l.nombre}</span>
         <span style="color:var(--mut)">${money(acumulado)} → <b style="color:var(--ink)">${money(proyectado)}</b></span>
       </div>
       <div class="text-[10px] mt-0.5" style="color:${enRuta ? 'var(--ok)' : '#ED0B4C'}">
@@ -342,8 +342,8 @@ async function loadRotacion() {
     const li = document.createElement('li');
     li.className = 'py-1.5 flex items-center justify-between';
     li.innerHTML = `
-      <span>${String(i + 1).padStart(2, '0')} · ${p.nombre}</span>
-      <span>${p.unidades} u</span>
+      <span class="font-bold">${String(i + 1).padStart(2, '0')} · ${p.nombre}</span>
+      <span class="font-bold">${p.unidades} u</span>
     `;
     list.appendChild(li);
   });
