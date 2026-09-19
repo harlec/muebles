@@ -20,15 +20,15 @@ $maxWidth = $maxWidths[$layoutWidth ?? 'completo'] ?? 'none';
          class="rounded-xl object-cover bg-black border" style="border-color: var(--bd2)">
 
     <div class="flex-1 min-w-[150px] basis-[170px]">
-      <div class="text-[15px] font-bold uppercase tracking-[.14em]">Muebles &amp; Estilo</div>
-      <div class="text-[11px] uppercase tracking-[.12em] text-mut whitespace-nowrap">Centro de control · 4 locales</div>
+      <div class="text-[17px] font-bold uppercase tracking-[.14em]">Muebles &amp; Estilo</div>
+      <div class="text-[13px] uppercase tracking-[.12em] text-mut whitespace-nowrap">Centro de control · 4 locales</div>
     </div>
 
     <div class="ml-auto flex items-center gap-2">
       <div class="flex items-center gap-2 rounded-full px-[11px] py-[7px] border"
            style="background: var(--acc-soft); border-color: var(--acc-bd)">
         <span class="w-[7px] h-[7px] rounded-full animate-pulseDot" style="background: #ED0B4C"></span>
-        <span id="clock" class="text-[11px] font-bold tabular-nums">--:--:--</span>
+        <span id="clock" class="text-[13px] font-bold tabular-nums">--:--:--</span>
       </div>
       <button id="theme-toggle" type="button" aria-label="Cambiar tema"
               class="rounded-full w-9 h-9 flex items-center justify-center bg-chip border"
@@ -46,22 +46,22 @@ $maxWidth = $maxWidths[$layoutWidth ?? 'completo'] ?? 'none';
 
   <div id="local-filter" class="flex gap-[7px] overflow-x-auto pb-2">
     <button class="chip-local shrink-0 rounded-xl px-[13px] py-[9px] text-left border" data-local="global">
-      <div class="text-[13px] font-bold">Global</div>
-      <div class="text-[11px] opacity-70 chip-amount">—</div>
+      <div class="text-[15px] font-bold">Global</div>
+      <div class="text-[13px] opacity-70 chip-amount">—</div>
     </button>
     <?php foreach ($locales as $local): ?>
     <button class="chip-local shrink-0 rounded-xl px-[13px] py-[9px] text-left border" data-local="<?= htmlspecialchars($local['id']) ?>">
-      <div class="text-[13px] font-bold"><?= htmlspecialchars($local['nombre']) ?></div>
-      <div class="text-[11px] opacity-70 chip-amount">—</div>
+      <div class="text-[15px] font-bold"><?= htmlspecialchars($local['nombre']) ?></div>
+      <div class="text-[13px] opacity-70 chip-amount">—</div>
     </button>
     <?php endforeach; ?>
   </div>
 
   <div class="sticky z-[19] grid grid-cols-3 gap-1.5 p-[5px] bg-chip border rounded-[14px] my-3"
        style="top: 74px; border-color: var(--bd)">
-    <button class="tab-btn rounded-[10px] py-2.5 px-1.5 text-[11px] font-bold uppercase tracking-[.1em] transition-all duration-[180ms]" data-tab="hoy">Hoy</button>
-    <button class="tab-btn rounded-[10px] py-2.5 px-1.5 text-[11px] font-bold uppercase tracking-[.1em] transition-all duration-[180ms]" data-tab="mes">Mes</button>
-    <button class="tab-btn rounded-[10px] py-2.5 px-1.5 text-[11px] font-bold uppercase tracking-[.1em] transition-all duration-[180ms]" data-tab="rotacion">Rotación</button>
+    <button class="tab-btn rounded-[10px] py-2.5 px-1.5 text-[13px] font-bold uppercase tracking-[.1em] transition-all duration-[180ms]" data-tab="hoy">Hoy</button>
+    <button class="tab-btn rounded-[10px] py-2.5 px-1.5 text-[13px] font-bold uppercase tracking-[.1em] transition-all duration-[180ms]" data-tab="mes">Mes</button>
+    <button class="tab-btn rounded-[10px] py-2.5 px-1.5 text-[13px] font-bold uppercase tracking-[.1em] transition-all duration-[180ms]" data-tab="rotacion">Rotación</button>
   </div>
 
   <!-- ===================== VISTA HOY ===================== -->
@@ -91,7 +91,7 @@ $maxWidth = $maxWidths[$layoutWidth ?? 'completo'] ?? 'none';
     <div class="grid gap-3 mt-3" style="grid-template-columns: repeat(auto-fit, minmax(300px,1fr))">
       <div class="panel">
         <h2 class="panel-h"><span class="dot" style="background:var(--acc-txt)"></span>Quién vende más hoy <span class="meta-label">en vivo</span></h2>
-        <ol id="ranking-list" class="flex-1 flex flex-col justify-between text-[12.5px]">
+        <ol id="ranking-list" class="flex-1 flex flex-col justify-between text-[14.5px]">
           <li class="text-mut">Cargando…</li>
         </ol>
       </div>
@@ -106,7 +106,7 @@ $maxWidth = $maxWidths[$layoutWidth ?? 'completo'] ?? 'none';
       <div class="panel">
         <h2 class="panel-h">Métodos de pago · hoy</h2>
         <!-- TODO: dona conic-gradient (README §Vista 1, punto 3) -->
-        <ul id="pagos-hoy-list" class="flex-1 flex flex-col justify-between text-[12.5px]">
+        <ul id="pagos-hoy-list" class="flex-1 flex flex-col justify-between text-[14.5px]">
           <li class="text-mut">Cargando…</li>
         </ul>
       </div>
@@ -118,7 +118,7 @@ $maxWidth = $maxWidths[$layoutWidth ?? 'completo'] ?? 'none';
 
       <div class="panel">
         <h2 class="panel-h">Categorías más vendidas</h2>
-        <ul id="categorias-list" class="flex-1 flex flex-col justify-between text-[12.5px]">
+        <ul id="categorias-list" class="flex-1 flex flex-col justify-between text-[14.5px]">
           <li class="text-mut">Cargando…</li>
         </ul>
       </div>
@@ -154,13 +154,13 @@ $maxWidth = $maxWidths[$layoutWidth ?? 'completo'] ?? 'none';
       </div>
       <div class="panel">
         <h2 class="panel-h">Proyección de cierre por local</h2>
-        <ul id="proyeccion-local-list" class="flex-1 flex flex-col justify-between text-[12.5px]">
+        <ul id="proyeccion-local-list" class="flex-1 flex flex-col justify-between text-[14.5px]">
           <li class="text-mut">Cargando…</li>
         </ul>
       </div>
       <div class="panel">
         <h2 class="panel-h">Métodos de pago · mes</h2>
-        <ul id="pagos-mes-list" class="flex-1 flex flex-col justify-between text-[12.5px]">
+        <ul id="pagos-mes-list" class="flex-1 flex flex-col justify-between text-[14.5px]">
           <li class="text-mut">Cargando…</li>
         </ul>
       </div>
@@ -187,7 +187,7 @@ $maxWidth = $maxWidths[$layoutWidth ?? 'completo'] ?? 'none';
     <div class="grid gap-3 mt-3" style="grid-template-columns: repeat(auto-fit, minmax(300px,1fr))">
       <div class="panel">
         <h2 class="panel-h">Lo que más sale <span class="meta-label">30 días</span></h2>
-        <ol id="top-productos-list" class="flex-1 flex flex-col text-[13px]">
+        <ol id="top-productos-list" class="flex-1 flex flex-col text-[15px]">
           <li class="text-mut">Cargando…</li>
         </ol>
       </div>
@@ -199,7 +199,7 @@ $maxWidth = $maxWidths[$layoutWidth ?? 'completo'] ?? 'none';
     </div>
   </section>
 
-  <footer class="text-center py-6 text-[10.5px] uppercase tracking-[.06em]" style="color: var(--faint)">
+  <footer class="text-center py-6 text-[12.5px] uppercase tracking-[.06em]" style="color: var(--faint)">
     <div>Muebles &amp; Estilo · Centro de control</div>
     <div>Un estilo diferente para tu hogar</div>
   </footer>

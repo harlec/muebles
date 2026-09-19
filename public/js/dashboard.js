@@ -174,7 +174,7 @@ function renderRanking(ranking, fecha) {
       <div class="h-2 rounded mt-1" style="background:var(--track)">
         <div class="h-2 rounded" style="width:${Math.min(metaPct, 100)}%; background:${i === 0 ? '#ED0B4C' : 'var(--bar2)'}"></div>
       </div>
-      <div class="text-[10px] mt-0.5" style="color:var(--mut)">${r.tickets} tickets · ${pct(metaPct)} de meta</div>
+      <div class="text-[12px] mt-0.5" style="color:var(--mut)">${r.tickets} tickets · ${pct(metaPct)} de meta</div>
     `;
     li.addEventListener('click', () => setLocal(state.local === r.id ? 'global' : r.id));
     list.appendChild(li);
@@ -224,7 +224,7 @@ function renderPagos(mix, targetId) {
       <div class="h-1.5 rounded mt-1" style="background:var(--track)">
         <div class="h-1.5 rounded" style="width:${p}%; background:#ED0B4C"></div>
       </div>
-      <div class="text-[10px] mt-0.5" style="color:var(--faint)">${m.tickets} tickets · ticket prom ${money(m.tickets ? m.monto / m.tickets : 0)}</div>
+      <div class="text-[12px] mt-0.5" style="color:var(--faint)">${m.tickets} tickets · ticket prom ${money(m.tickets ? m.monto / m.tickets : 0)}</div>
     `;
     list.appendChild(li);
   });
@@ -261,7 +261,7 @@ function renderFeed(ventas) {
     li.innerHTML = `
       <span class="w-10 font-bold" style="color:#ED0B4C">${hora}</span>
       <span class="flex-1 truncate font-semibold">${v.producto_nombre}</span>
-      <span class="text-[11px]" style="color:var(--mut)">${v.local_nombre} · ${PAY_LABELS[v.metodo_pago] || v.metodo_pago}</span>
+      <span class="text-[13px]" style="color:var(--mut)">${v.local_nombre} · ${PAY_LABELS[v.metodo_pago] || v.metodo_pago}</span>
       <span class="font-bold">${money(v.monto)}</span>
     `;
     list.appendChild(li);
@@ -317,7 +317,7 @@ function renderProyeccionLocal(porLocal, diaActual, diasDelMes) {
         <span class="font-medium">${l.nombre}</span>
         <span style="color:var(--mut)">${money(acumulado)} → <b style="color:var(--ink)">${money(proyectado)}</b></span>
       </div>
-      <div class="text-[10px] mt-0.5" style="color:${enRuta ? 'var(--ok)' : '#ED0B4C'}">
+      <div class="text-[12px] mt-0.5" style="color:${enRuta ? 'var(--ok)' : '#ED0B4C'}">
         ${enRuta ? '▲' : '▼'} ${Math.abs(Math.round(pctMeta))}% vs meta · ${enRuta ? 'en ruta' : 'requiere empuje'}
       </div>
     `;
@@ -335,7 +335,7 @@ async function loadRotacion() {
   document.getElementById('kpi-rot-dias').textContent = 'N/D';
 
   const list = document.getElementById('top-productos-list');
-  list.innerHTML = `<li class="text-[10.5px] mb-2" style="color:var(--faint)">
+  list.innerHTML = `<li class="text-[12.5px] mb-2" style="color:var(--faint)">
     Rotación (×) y días de stock: pendiente — falta tabla de inventario en el esquema.
   </li>`;
   data.productos.forEach((p, i) => {
@@ -349,7 +349,7 @@ async function loadRotacion() {
   });
 
   document.getElementById('alertas-rotacion').innerHTML =
-    `<div class="text-[11px] p-3 rounded-[14px]" style="background:var(--inset);color:var(--body2)">
+    `<div class="text-[13px] p-3 rounded-[14px]" style="background:var(--inset);color:var(--body2)">
       Alertas de quiebre/baja rotación/oportunidad: pendiente hasta tener stock por producto.
     </div>`;
 }

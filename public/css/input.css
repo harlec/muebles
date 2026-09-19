@@ -101,14 +101,14 @@ body {
     border-color: var(--acc-bd);
   }
   .kpi-label {
-    @apply flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[.13em] mb-2;
+    @apply flex items-center gap-1.5 text-[13px] font-bold uppercase tracking-[.13em] mb-2;
     color: var(--mut);
   }
   .kpi-hero .kpi-label { color: var(--acc-txt); }
   .dot { @apply inline-block w-1.5 h-1.5 rounded-full shrink-0; }
-  .kpi-value { @apply text-[36px] font-medium tracking-[-.02em] tabular-nums; }
-  .kpi .unit { @apply text-xs ml-1; color: var(--mut); }
-  .kpi-delta { @apply text-[11px] mt-1; color: var(--mut); }
+  .kpi-value { @apply text-[40px] font-medium tracking-[-.02em] tabular-nums; }
+  .kpi .unit { @apply text-sm ml-1; color: var(--mut); }
+  .kpi-delta { @apply text-[13px] mt-1; color: var(--mut); }
 
   .panel {
     @apply flex flex-col p-4 rounded-[18px] border;
@@ -116,14 +116,14 @@ body {
     border-color: var(--bd);
   }
   .panel-h {
-    @apply flex items-center gap-1.5 text-xs font-bold uppercase tracking-[.11em] mb-3;
+    @apply flex items-center gap-1.5 text-sm font-bold uppercase tracking-[.11em] mb-3;
   }
   .panel-h .meta-label {
-    @apply ml-auto text-[10.5px] uppercase normal-case tracking-normal font-normal;
+    @apply ml-auto text-[12.5px] uppercase normal-case tracking-normal font-normal;
     color: var(--mut);
   }
   .insight {
-    @apply mt-3 px-3 py-[11px] rounded-xl text-[11.5px] leading-[1.45];
+    @apply mt-3 px-3 py-[11px] rounded-xl text-[13.5px] leading-[1.45];
     background: var(--inset);
     color: var(--body);
   }
@@ -149,7 +149,7 @@ body {
   }
 
   .feed-row {
-    @apply flex items-center justify-between gap-2 py-2 text-[12px] border-b;
+    @apply flex items-center justify-between gap-2 py-2 text-[14px] border-b;
     border-color: var(--bd4);
   }
 }
